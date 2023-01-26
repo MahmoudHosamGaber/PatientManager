@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import { getAdmins } from "../../Controller/AdminController";
-
+import { registerAdmin, loginAdmin } from "../../Controller/AdminController";
 export const router = express.Router();
 
-router.get("/", getAdmins);
+router.post("/", registerAdmin);
+router.post("/login", loginAdmin);
