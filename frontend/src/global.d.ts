@@ -3,3 +3,8 @@ export type User = {
     id: string;
     token: string;
 } | null;
+export type AlertFields = {
+    isOpen: boolean;
+    severity: "success" | "error";
+    message: string;
+};

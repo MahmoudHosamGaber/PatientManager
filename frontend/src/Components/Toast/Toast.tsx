@@ -1,26 +1,19 @@
 import { Alert, Snackbar } from "@mui/material";
+import { useToast } from "../../Context/ToastContext";
+import { AlertFields } from "../../global";
 
-export type Alert = {
-    isSuccess: boolean;
-    isError: boolean;
-    message: string;
-};
-type Props = {
-    alert: Alert;
-    setAlert: (state: Alert) => void;
-};
-const Toast = ({ alert, setAlert }: Props) => {
-    const handleAlertClose = () =>
-        setAlert({ isError: false, isSuccess: false, message: "" });
+const Toast = () => {
+    const { alert, toast } = useToast();
+    const handleAlertClose = () => toast.close();
     return (
         <Snackbar
-            open={alert.isSuccess || alert.isError}
+            open={alert.isOpen}
             autoHideDuration={6000}
             onClose={handleAlertClose}
         >
             <Alert
                 onClose={handleAlertClose}
-                severity={alert.isSuccess ? "success" : "error"}
+                severity={alert.severity}
                 variant="filled"
             >
                 {alert.message}

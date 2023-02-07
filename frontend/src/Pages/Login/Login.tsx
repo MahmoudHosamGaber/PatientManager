@@ -9,20 +9,17 @@ import {
     InputAdornment,
     IconButton,
 } from "@mui/material";
-import { Toast } from "../../Components";
 import axios, { AxiosError } from "axios";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { LoginButton, LoginContainer, LoginForm } from "./LoginStyles";
 import { useAuth } from "../../Context/AuthContext";
 import { User } from "../../global";
-function Login() {
+import { useToast } from "../../Context/ToastContext";
+const Login = () => {
+    const { toast } = useToast();
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const [alert, setAlert] = useState({
-        isSuccess: false,
-        isError: false,
-        message: "",
-    });
+
     const { setUser } = useAuth();
     const navigate = useNavigate();
     const handleSubmission = async (event: FormEvent<HTMLFormElement>) => {
@@ -41,17 +38,12 @@ function Login() {
             setUser(res);
             navigate("/");
         } catch (error) {
-            setAlert({
-                isError: true,
-                isSuccess: false,
-                message: (error as AxiosError).message,
-            });
+            toast.error((error as AxiosError).message);
         }
     };
 
     return (
         <>
-            <Toast alert={alert} setAlert={setAlert} />
             <Box
                 sx={{
                     display: "flex",
@@ -117,6 +109,6 @@ function Login() {
             </Box>
         </>
     );
-}
+};
 
 export default Login;
