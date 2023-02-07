@@ -44,69 +44,55 @@ const Login = () => {
 
     return (
         <>
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    minHeight: "100vh",
-                }}
-            >
-                <LoginContainer>
-                    <img
-                        src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg"
-                        alt=""
-                        className="img-fluid mb-3 d-none d-md-block"
-                        style={{
-                            maxWidth: "50%",
-                        }}
+            <LoginContainer>
+                <img
+                    src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg"
+                    alt=""
+                    style={{
+                        maxWidth: "50%",
+                    }}
+                />
+                <LoginForm onSubmit={handleSubmission}>
+                    <TextField
+                        fullWidth
+                        required
+                        name="username"
+                        variant="outlined"
+                        label="Username"
                     />
-                    <LoginForm onSubmit={handleSubmission}>
-                        <TextField
+                    <FormControl variant="outlined" fullWidth>
+                        <InputLabel htmlFor="outlined-adornment-password">
+                            Password *
+                        </InputLabel>
+                        <OutlinedInput
                             fullWidth
                             required
-                            name="username"
-                            variant="outlined"
-                            label="Username"
+                            label="Password"
+                            name="password"
+                            id="outlined-adornment-password"
+                            type={showPassword ? "text" : "password"}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? (
+                                            <VisibilityOff />
+                                        ) : (
+                                            <Visibility />
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
                         />
-                        <FormControl variant="outlined" fullWidth>
-                            <InputLabel htmlFor="outlined-adornment-password">
-                                Password *
-                            </InputLabel>
-                            <OutlinedInput
-                                fullWidth
-                                required
-                                label="Password"
-                                name="password"
-                                id="outlined-adornment-password"
-                                type={showPassword ? "text" : "password"}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? (
-                                                <VisibilityOff />
-                                            ) : (
-                                                <Visibility />
-                                            )}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                            />
-                        </FormControl>
-                        <LoginButton
-                            type="submit"
-                            variant="contained"
-                            fullWidth
-                        >
-                            SIGN IN
-                        </LoginButton>
-                    </LoginForm>
-                </LoginContainer>
-            </Box>
+                    </FormControl>
+                    <LoginButton type="submit" variant="contained" fullWidth>
+                        SIGN IN
+                    </LoginButton>
+                </LoginForm>
+            </LoginContainer>
         </>
     );
 };

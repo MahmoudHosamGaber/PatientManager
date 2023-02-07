@@ -9,11 +9,11 @@ export const LoginButton = styled(Button)({
 });
 
 export const LoginContainer = styled(Box)({
+    minHeight: "100vh",
     display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     marginInline: "3rem ",
-    width: "100%",
-    borderRadius: "1rem",
-    overflow: "hidden",
     "& > *": {
         width: "100%",
     },
