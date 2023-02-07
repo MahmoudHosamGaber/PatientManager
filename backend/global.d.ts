@@ -11,3 +11,10 @@ type AuthinticatedRequest = Request & { user?: AdminUser };
 export type Cookie = {
     userType: string | null;
 };
+
+export type PatientRecord = {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    phonenumber: string;
+};
