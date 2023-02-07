@@ -2,18 +2,24 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Login, Profile } from "./Pages";
-import { NavBar } from "./Components";
+import AuthProvider from "./Context/AuthContext";
+import { LoginProtected } from "./Components";
 function App() {
     return (
         <>
-            <BrowserRouter>
-                {/* <NavBar /> */}
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/profile" element={<Profile />} />
-                </Routes>
-            </BrowserRouter>
+            <AuthProvider>
+                <BrowserRouter>
+                    {/* <NavBar /> */}
+                    <Routes>
+                        <Route path="/login" element={<Login />} />
+
+                        <Route element={<LoginProtected />}>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/profile" element={<Profile />} />
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
         </>
     );
 }

@@ -13,7 +13,8 @@ import { Toast } from "../../Components";
 import axios, { AxiosError } from "axios";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { LoginButton, LoginContainer, LoginForm } from "./LoginStyles";
-
+import { useAuth } from "../../Context/AuthContext";
+import { User } from "../../global";
 function Login() {
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -22,6 +23,7 @@ function Login() {
         isError: false,
         message: "",
     });
+    const { setUser } = useAuth();
     const navigate = useNavigate();
     const handleSubmission = async (event: FormEvent<HTMLFormElement>) => {
         try {
@@ -29,10 +31,14 @@ function Login() {
             const formData = new FormData(event.currentTarget);
             const username = formData.get("username");
             const password = formData.get("password");
-            await axios.post("http://localhost:8000/api/admin/login", {
-                username,
-                password,
-            });
+            const res: User = await axios.post(
+                "http://localhost:8000/api/admin/login",
+                {
+                    username,
+                    password,
+                }
+            );
+            setUser(res);
             navigate("/");
         } catch (error) {
             setAlert({
