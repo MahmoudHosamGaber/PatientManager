@@ -38,6 +38,10 @@ const Login = () => {
             setUser(res);
             navigate("/");
         } catch (error) {
+            if ((error as AxiosError).response?.status === 401) {
+                toast.error("Username or password is incorrect");
+                return;
+            }
             toast.error((error as AxiosError).message);
         }
     };
