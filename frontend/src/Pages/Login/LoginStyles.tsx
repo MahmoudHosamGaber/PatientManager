@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 
 export const LoginButton = styled(Button)({
     background: "black",
+    color: "white",
     "&:hover": {
         background: "#222",
     },

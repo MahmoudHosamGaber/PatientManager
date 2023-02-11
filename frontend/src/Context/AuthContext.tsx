@@ -11,6 +11,7 @@ import { User } from "../global";
 type Value = {
     user: User;
     setUser: Dispatch<SetStateAction<User>>;
+    logout: () => void;
 };
 type UseAuth = () => Value;
 const authContext = createContext({} as Value);
@@ -22,8 +23,11 @@ const AuthProvider = ({ children }: any) => {
     useEffect(() => {
         console.log(user);
     }, [user]);
+    const logout = () => {
+        setUser(null);
+    };
     return (
-        <authContext.Provider value={{ user, setUser }}>
+        <authContext.Provider value={{ user, setUser, logout }}>
             {children}
         </authContext.Provider>
     );

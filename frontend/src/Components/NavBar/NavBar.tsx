@@ -8,15 +8,14 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Select, MenuItem } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import NavSearchBar from "../SearchBar/SearchBar";
 import { LocalLibrary } from "@mui/icons-material";
-
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import { useAuth } from "../../Context/AuthContext";
 const drawerWidth = 240;
 type NavItem = {
     text: string;
@@ -30,16 +29,18 @@ export default function DrawerAppBar() {
         setMobileOpen(!mobileOpen);
     };
 
-    const commonNavItems: NavItem[] = [
-        { text: "Login", onClick: () => navigate("/login") },
+    const { logout } = useAuth();
+    const navItems: NavItem[] = [
+        { text: "Patients", onClick: () => navigate("/patients") },
+        { text: "Appointments", onClick: () => navigate("/appointments") },
+        { text: "Profile", onClick: () => navigate("/profile") },
+        { text: "Logout", onClick: () => logout() },
     ];
-
-    const navItems: NavItem[] = commonNavItems;
 
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
             <Typography variant="h6" sx={{ my: 2 }}>
-                <LocalLibrary />
+                <LocalHospitalIcon />
             </Typography>
             <Divider />
             <List>
@@ -70,17 +71,17 @@ export default function DrawerAppBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Box sx={{ display: "flex", flexGrow: 1, gap: 0.5 }}>
-                        <LocalLibrary
-                            fontSize="large"
-                            sx={{
-                                display: { xs: "none", md: "block" },
-                                "&:hover": { cursor: "pointer" },
-                            }}
-                            onClick={() => {}}
-                        />
-                        <NavSearchBar />
-                    </Box>
+
+                    <LocalHospitalIcon
+                        fontSize="large"
+                        sx={{
+                            display: { xs: "none", md: "block" },
+                            "&:hover": { cursor: "pointer" },
+                        }}
+                        onClick={() => {
+                            navigate("/");
+                        }}
+                    />
 
                     <Box sx={{ display: { xs: "none", md: "block" } }}>
                         {navItems.map((item) => (
