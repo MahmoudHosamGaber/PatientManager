@@ -20,9 +20,6 @@ export const useAuth: UseAuth = () => {
 };
 const AuthProvider = ({ children }: any) => {
     const [user, setUser] = useState<User>(null);
-    useEffect(() => {
-        console.log(user);
-    }, [user]);
     const logout = () => {
         setUser(null);
     };

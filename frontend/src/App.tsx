@@ -6,6 +6,7 @@ import { LoginProtected } from "./Components";
 import ContextProvider from "./Context/ContextProvider";
 import Patients from "./Pages/Patients/Patients";
 import Appointments from "./Pages/Appointments/Appointments";
+import PatientDetails from "./Pages/Patients/PatientDetails";
 function App() {
     return (
         <>
@@ -17,6 +18,10 @@ function App() {
                             <Route path="/" element={<Home />} />
                             <Route path="/profile" element={<Profile />} />
                             <Route path="/patients" element={<Patients />} />
+                            <Route
+                                path="/patients/:id"
+                                element={<PatientDetails />}
+                            />
                             <Route
                                 path="/appointments"
                                 element={<Appointments />}

@@ -28,14 +28,11 @@ const Login = () => {
             const formData = new FormData(event.currentTarget);
             const username = formData.get("username");
             const password = formData.get("password");
-            const res: User = await axios.post(
-                "http://localhost:8000/api/admin/login",
-                {
-                    username,
-                    password,
-                }
-            );
-            setUser(res);
+            const res = await axios.post("/api/admin/login", {
+                username,
+                password,
+            });
+            setUser(res.data);
             navigate("/");
         } catch (error) {
             if ((error as AxiosError).response?.status === 401) {
