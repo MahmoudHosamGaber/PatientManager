@@ -8,7 +8,7 @@ const authinticateAdmin = asyncHandler(
     async (req: AuthinticatedRequest, res: Response, next: NextFunction) => {
         try {
             if (!req.headers.authorization?.startsWith("Bearer")) {
-                throw new Error("Invalid Authorization Header");
+                res.status(401).json({ message: "Invalid Token" });
                 return;
             }
             const token = req.headers.authorization.split(" ")[1];
@@ -18,7 +18,7 @@ const authinticateAdmin = asyncHandler(
             ) as JwtPayload;
             const admin: AdminUser | null = await Admin.findById(decoded.id);
             if (!admin) {
-                throw new Error("Invalid Token");
+                res.json({ message: "Invalid Token Unauthorized" });
                 return;
             }
             req.user = admin;

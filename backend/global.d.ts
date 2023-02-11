@@ -18,3 +18,13 @@ export type PatientRecord = {
     lastName: string;
     phonenumber: string;
 };
+
+export type AppointmentRecord = {
+    _id: string;
+    title: string;
+    description: string;
+    date: Date;
+    patient: string;
+    cost: number;
+    paid: number;
+};

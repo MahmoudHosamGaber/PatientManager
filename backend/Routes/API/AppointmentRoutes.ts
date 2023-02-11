@@ -15,7 +15,7 @@ const {
 
 router.get("/", authinticateAdmin, getAllAppointments);
 router.get("/pending", authinticateAdmin, getPendingAppointments);
-router.get("/:id", authinticateAdmin, getAppointmentByPatientId);
+router.get("/patient/:id", authinticateAdmin, getAppointmentByPatientId);
 router.post(
     "/",
     authinticateAdmin,
