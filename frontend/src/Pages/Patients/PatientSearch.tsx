@@ -45,7 +45,7 @@ const PatientSearch = ({ setPatients }: Props) => {
                 alignItems: { xs: "flex-start", md: "center" },
             }}
         >
-            <AddPatientModal />
+            <AddPatientModal setPatients={setPatients} />
             <PatientSearchForm onSubmit={onSubmit}>
                 <TextField label="Name" name="name" variant="standard" />
                 <TextField

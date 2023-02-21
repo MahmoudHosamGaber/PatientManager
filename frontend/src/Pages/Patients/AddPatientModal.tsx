@@ -1,12 +1,56 @@
 import { Box, Button, Modal, TextField } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ModalBox } from "../../Components/ModalStyles/ModalStyles";
 import AddIcon from "@mui/icons-material/Add";
-
-const AddPatientModal = () => {
+import axios, { AxiosError } from "axios";
+import { useToast } from "../../Context/ToastContext";
+import { useAuth } from "../../Context/AuthContext";
+import { PatientRecord } from "../../global";
+type Props = {
+    setPatients: Dispatch<SetStateAction<PatientRecord[]>>;
+};
+const AddPatientModal = ({ setPatients }: Props) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [loading, setLoading] = useState(false);
+    const { toast } = useToast();
+    const { user } = useAuth();
+    const token = user?.token;
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        try {
+            setLoading(true);
+            e.preventDefault();
+            const config = {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            };
+            const formData = new FormData(e.currentTarget);
+            const firstName = formData.get("firstName");
+            const lastName = formData.get("lastName");
+            const phonenumber = formData.get("phonenumber");
+            console.log(phonenumber);
+            const respose = await axios.post(
+                "/api/patient",
+                { firstName, lastName, phonenumber },
+                config
+            );
+            setPatients((prev) => [...prev, respose.data]);
+            toast.success("Patient Added Successfully");
+            handleClose();
+            setLoading(false);
+        } catch (error: AxiosError | any) {
+            const message: string =
+                error?.response?.data?.message ||
+                error.message ||
+                error.toString();
+            console.log(error);
+            toast.error(message);
+            setLoading(false);
+        }
+    };
     return (
         <>
             <Button
@@ -32,6 +76,7 @@ const AddPatientModal = () => {
                             justifyContent: "center",
                             gap: "1rem",
                         }}
+                        onSubmit={onSubmit}
                     >
                         <TextField
                             label="First Name"
@@ -41,7 +86,7 @@ const AddPatientModal = () => {
                         <TextField label="Last Name" name="lastName" required />
                         <TextField
                             label="Phone Number"
-                            name="phoneNumber"
+                            name="phonenumber"
                             required
                         />
                         <Button
