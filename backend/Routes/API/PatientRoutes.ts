@@ -11,9 +11,17 @@ const {
     updatePatient,
     validateUpdatePatientInput,
     deletePatient,
+    filterPatient,
+    validateFilterPatientInput,
 } = PatientController;
 
 router.post("/", authinticateAdmin, validateCreatePatientInput, createPatient);
+router.post(
+    "/filter",
+    authinticateAdmin,
+    validateFilterPatientInput,
+    filterPatient
+);
 router.get("/", authinticateAdmin, getAllPatients);
 router.get("/:id", authinticateAdmin, getPatientById);
 router.put(

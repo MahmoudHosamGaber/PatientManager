@@ -118,6 +118,38 @@ const deletePatient = async (
     }
 };
 
+const filterPatientInput = Record({
+    name: String.optional(),
+    phonenumber: String.optional(),
+});
+type filterPatientInput = Static<typeof filterPatientInput>;
+const validateFilterPatientInput = validateInput(filterPatientInput);
+const filterPatient = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        let { name, phonenumber } = req.body;
+        phonenumber = phonenumber?.trim() || "";
+        name = name?.trim() || "";
+        let patients = await Patient.find();
+        patients = patients.filter((patient) => {
+            const fullName =
+                patient.firstName.toLowerCase().trim() +
+                " " +
+                patient.lastName.toLowerCase().trim();
+            return (
+                fullName.includes(name?.toLowerCase()?.trim()) &&
+                patient.phonenumber.includes(phonenumber?.trim())
+            );
+        });
+        res.status(200).json(patients);
+    } catch (error) {
+        next(error);
+    }
+};
+
 export default {
     createPatient,
     validateCreatePatientInput,
@@ -126,4 +158,6 @@ export default {
     updatePatient,
     validateUpdatePatientInput,
     deletePatient,
+    filterPatient,
+    validateFilterPatientInput,
 };
