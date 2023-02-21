@@ -42,7 +42,13 @@ const Patients = () => {
             <Divider />
             <PatientContainer>
                 {patients.map((patient) => {
-                    return <PatientCard patient={patient} key={patient._id} />;
+                    return (
+                        <PatientCard
+                            patient={patient}
+                            setPatients={setPatients}
+                            key={patient._id}
+                        />
+                    );
                 })}
             </PatientContainer>
         </PatientPage>

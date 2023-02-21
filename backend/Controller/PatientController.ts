@@ -28,7 +28,7 @@ const createPatient = async (
         if (phonenumberExists) {
             return res
                 .status(400)
-                .json({ message: "a Patient with this number already exists" });
+                .json({ message: "A Patient with this number already exists" });
         }
         const patient = new Patient({
             firstName: firstName.toLowerCase(),
@@ -91,6 +91,16 @@ const updatePatient = async (
             ...(lastName ? { lastName } : {}),
             ...(phonenumber ? { phonenumber } : {}),
         };
+        if (phonenumber) {
+            const phonenumberExists = await Patient.find({
+                phonenumber,
+            });
+            if (phonenumberExists) {
+                return res.status(400).json({
+                    message: "A Patient with this number already exists",
+                });
+            }
+        }
         const patient = await Patient.findByIdAndUpdate(req.params.id, filter, {
             runValidators: true,
             new: true,
