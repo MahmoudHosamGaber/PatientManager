@@ -9,8 +9,16 @@ export const validateInput =
             record.check(data);
             return next();
         } catch (error) {
-            if (error instanceof ValidationError)
-                return res.status(401).json({ message: error.details });
+            if (error instanceof ValidationError) {
+                if (!error.details) return next(error);
+                const message = Object.keys(error.details).reduce(
+                    (acc, key) => {
+                        return acc + `${key} `;
+                    },
+                    "The following fields are invalid: "
+                );
+                return res.status(400).json({ message });
+            }
             return next(error);
         }
     };
