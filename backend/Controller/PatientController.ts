@@ -3,7 +3,7 @@ import { Record, Static, String } from "runtypes";
 import { validateInput } from "../Middleware/validateInput";
 import Patient from "../Model/PatientModel";
 
-const phonenumberRegex = /^01[0125][0-9]{8}$/gm;
+const phonenumberRegex = /^01[0125][0-9]{8}$/m;
 const phonenumberConstraint = (phonenumber: string | undefined) => {
     if (!phonenumber) return true;
     return phonenumberRegex.test(phonenumber);
