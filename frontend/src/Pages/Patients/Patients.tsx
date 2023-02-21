@@ -4,8 +4,9 @@ import { useToast } from "../../Context/ToastContext";
 import { useAuth } from "../../Context/AuthContext";
 import { PatientRecord } from "../../global";
 import PatientCard from "./PatientCard";
-import { Box, Container } from "@mui/material";
-import { PatientContainer } from "./PatientStyles";
+import { Box, Container, Divider } from "@mui/material";
+import { PatientContainer, PatientPage } from "./PatientStyles";
+import PatientSearch from "./PatientSearch";
 const Patients = () => {
     const [patients, setPatients] = useState<PatientRecord[]>([]);
     const [loading, setLoading] = useState(true);
@@ -36,11 +37,15 @@ const Patients = () => {
     }, []);
 
     return (
-        <PatientContainer>
-            {patients.map((patient) => {
-                return <PatientCard patient={patient} />;
-            })}
-        </PatientContainer>
+        <PatientPage>
+            <PatientSearch setPatients={setPatients} />
+            <Divider />
+            <PatientContainer>
+                {patients.map((patient) => {
+                    return <PatientCard patient={patient} key={patient._id} />;
+                })}
+            </PatientContainer>
+        </PatientPage>
     );
 };
 
