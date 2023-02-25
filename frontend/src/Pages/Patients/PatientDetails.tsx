@@ -71,6 +71,11 @@ const PatientDetails = () => {
     const lastName =
         patient.lastName.charAt(0).toUpperCase() + patient.lastName.slice(1);
     const fullName = firstName + " " + lastName;
+    const totalUnpaid = appointments.reduce(
+        (acc, appointment) => acc + appointment.cost - appointment.paid,
+        0
+    );
+
     return (
         <Container
             sx={{
@@ -80,25 +85,43 @@ const PatientDetails = () => {
                 gap: "1rem",
             }}
         >
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}
-            >
-                <Typography variant="h3" fontWeight="bold" textAlign="center">
-                    {fullName}
-                </Typography>
-                <Typography textAlign="center" variant="h5">
-                    <PhoneIcon fontSize="small" /> {patient.phonenumber}
-                </Typography>
-                <UpdatePatientModal
-                    patient={patient}
-                    setPatient={
-                        setPatient as Dispatch<SetStateAction<PatientRecord>>
-                    }
-                />
+            <Box>
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                    }}
+                >
+                    <Typography
+                        variant="h3"
+                        fontWeight="bold"
+                        textAlign="center"
+                    >
+                        {fullName}
+                    </Typography>
+                    <Typography textAlign="center" variant="h5">
+                        <PhoneIcon fontSize="small" /> {patient.phonenumber}
+                    </Typography>
+                    <UpdatePatientModal
+                        patient={patient}
+                        setPatient={
+                            setPatient as Dispatch<
+                                SetStateAction<PatientRecord>
+                            >
+                        }
+                    />
+                </Box>
+                {totalUnpaid > 0 && (
+                    <Typography
+                        variant="h5"
+                        fontWeight="bold"
+                        textAlign="center"
+                        sx={{ color: "red" }}
+                    >
+                        Total Unpaid: {totalUnpaid} EGP
+                    </Typography>
+                )}
             </Box>
             <Box>
                 <AddAppointmentModal
