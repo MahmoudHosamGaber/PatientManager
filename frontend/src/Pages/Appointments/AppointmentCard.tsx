@@ -1,9 +1,6 @@
 import { Box, Card, CardActionArea, Typography } from "@mui/material";
 import { AppointmentRecord } from "../../global";
-import {
-    AppointmentActionArea,
-    AppointmentContainer,
-} from "../Appointments/AppointmentStyles";
+import { AppointmentActionArea } from "./AppointmentStyles";
 
 type Props = {
     appointment: AppointmentRecord;
@@ -21,7 +18,6 @@ const AppointmentCard = ({ appointment }: Props) => {
     }
     const status =
         appointment.paid < appointment.cost ? Status.Pending : Status.Completed;
-
     return (
         <Card>
             <AppointmentActionArea>
@@ -36,12 +32,8 @@ const AppointmentCard = ({ appointment }: Props) => {
                         {status}
                     </span>
                 </Typography>
-
-                <Typography variant="h5">{formattedDate}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {appointment.description.slice(0, 200)}
-                    {appointment.description.length > 200 ? "..." : ""}
-                </Typography>
+                <Typography variant="h5">{appointment.patient}</Typography>
+                <Typography variant="h6">{formattedDate}</Typography>
             </AppointmentActionArea>
         </Card>
     );

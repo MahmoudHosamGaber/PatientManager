@@ -34,11 +34,17 @@ const PatientDetails = () => {
 
     const getAppointments = async (id: string) => {
         try {
-            const res = await axios.get(
+            const res = await axios.get<AppointmentRecord[]>(
                 `/api/appointment/patient/${id}`,
                 authorization
             );
-            setAppointments(res.data);
+
+            setAppointments(
+                res.data.sort(
+                    (a, b) =>
+                        new Date(b.date).getTime() - new Date(a.date).getTime()
+                )
+            );
         } catch (error: AxiosError | any) {
             const message: string =
                 error?.response?.data?.message ||
@@ -64,7 +70,10 @@ const PatientDetails = () => {
     return (
         <Container
             sx={{
-                paddingTop: "1rem",
+                paddingBlock: "1rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
             }}
         >
             <Box>
