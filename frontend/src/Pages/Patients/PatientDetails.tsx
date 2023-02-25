@@ -1,12 +1,16 @@
 import { Typography, Container, Box } from "@mui/material";
 import axios, { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Loader } from "../../Components";
 import { useAuth } from "../../Context/AuthContext";
 import { useToast } from "../../Context/ToastContext";
 import { AppointmentRecord, PatientRecord } from "../../global";
+import { AppointmentContainer } from "../Appointments/AppointmentStyles";
 import AppointmentCard from "./AppointmentCard";
+import PhoneIcon from "@mui/icons-material/Phone";
+import UpdatePatientModal from "./UpdatePatientModal";
+import AddAppointmentModal from "../Appointments/AddAppointmentModal";
 
 const PatientDetails = () => {
     const { user } = useAuth();
@@ -76,25 +80,41 @@ const PatientDetails = () => {
                 gap: "1rem",
             }}
         >
-            <Box>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                }}
+            >
                 <Typography variant="h3" fontWeight="bold" textAlign="center">
                     {fullName}
                 </Typography>
                 <Typography textAlign="center" variant="h5">
-                    Phone Number: {patient.phonenumber}
+                    <PhoneIcon fontSize="small" /> {patient.phonenumber}
                 </Typography>
+                <UpdatePatientModal
+                    patient={patient}
+                    setPatient={
+                        setPatient as Dispatch<SetStateAction<PatientRecord>>
+                    }
+                />
             </Box>
-            <Box
-                sx={{
-                    display: "grid",
-                    gap: "1rem",
-                    gridTemplateColumns: "repeat(auto-fit, 20rem)",
-                }}
-            >
+            <Box>
+                <AddAppointmentModal
+                    patient={patient}
+                    setAppointments={
+                        setAppointments as Dispatch<
+                            SetStateAction<AppointmentRecord[]>
+                        >
+                    }
+                />
+            </Box>
+            <AppointmentContainer>
                 {appointments.map((appointment) => {
                     return <AppointmentCard appointment={appointment} />;
                 })}
-            </Box>
+            </AppointmentContainer>
         </Container>
     );
 };

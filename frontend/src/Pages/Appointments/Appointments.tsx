@@ -52,13 +52,19 @@ const Appointments = () => {
     if (loading) return <Loader open={loading} />;
     const patientMap: {
         [key: string]: string;
-    } = patients.reduce(
-        (acc, patient: PatientRecord) => ({
+    } = patients.reduce((acc, patient: PatientRecord) => {
+        const firstName =
+            patient.firstName.charAt(0).toUpperCase() +
+            patient.firstName.slice(1);
+        const lastName =
+            patient.lastName.charAt(0).toUpperCase() +
+            patient.lastName.slice(1);
+        const fullName = firstName + " " + lastName;
+        return {
             ...acc,
-            [patient._id]: patient.firstName + " " + patient.lastName,
-        }),
-        {}
-    );
+            [patient._id]: fullName,
+        };
+    }, {});
     let appointmentList: AppointmentRecord[] =
         tab === "all" ? appointments : unpaidAppointments;
     appointmentList = appointmentList.map((appointment: AppointmentRecord) => ({

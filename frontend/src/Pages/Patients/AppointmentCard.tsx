@@ -14,6 +14,8 @@ const AppointmentCard = ({ appointment }: Props) => {
         year: "numeric",
         month: "short",
         day: "2-digit",
+        hour: "numeric",
+        minute: "numeric",
     }).format(date);
     enum Status {
         Pending = "Pending",

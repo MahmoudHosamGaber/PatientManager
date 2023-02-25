@@ -9,9 +9,10 @@ import { useToast } from "../../Context/ToastContext";
 import { PatientRecord } from "../../global";
 type Props = {
     patient: PatientRecord;
-    setPatients: React.Dispatch<React.SetStateAction<PatientRecord[]>>;
+    setPatient?: React.Dispatch<React.SetStateAction<PatientRecord>>;
+    setPatients?: React.Dispatch<React.SetStateAction<PatientRecord[]>>;
 };
-const UpdatePatientModal = ({ patient, setPatients }: Props) => {
+const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -37,14 +38,18 @@ const UpdatePatientModal = ({ patient, setPatients }: Props) => {
                 { firstName, lastName, phonenumber },
                 config
             );
-            setPatients((prev) =>
-                prev.map((p) => {
-                    if (p._id === patient._id) {
-                        return respose.data._doc;
-                    }
-                    return p;
-                })
-            );
+            if (setPatients) {
+                setPatients((prev) =>
+                    prev.map((p) => {
+                        if (p._id === patient._id) {
+                            return respose.data._doc;
+                        }
+                        return p;
+                    })
+                );
+            }
+            if (setPatient) setPatient(respose.data._doc);
+
             toast.success("Patient Updated Successfully");
             handleClose();
             setLoading(false);
@@ -63,7 +68,7 @@ const UpdatePatientModal = ({ patient, setPatients }: Props) => {
         <>
             <Button
                 onClick={handleOpen}
-                size="small"
+                // size="small"
                 color="warning"
                 variant="contained"
             >
@@ -86,9 +91,21 @@ const UpdatePatientModal = ({ patient, setPatients }: Props) => {
                             gap: "1rem",
                         }}
                     >
-                        <TextField label="First Name" name="firstName" />
-                        <TextField label="Last Name" name="lastName" />
-                        <TextField label="Phone Number" name="phonenumber" />
+                        <TextField
+                            label="First Name"
+                            name="firstName"
+                            value={patient.firstName}
+                        />
+                        <TextField
+                            label="Last Name"
+                            name="lastName"
+                            value={patient.lastName}
+                        />
+                        <TextField
+                            label="Phone Number"
+                            name="phonenumber"
+                            value={patient.phonenumber}
+                        />
                         <Button
                             type="submit"
                             variant="contained"
