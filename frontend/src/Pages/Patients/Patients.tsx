@@ -7,6 +7,7 @@ import PatientCard from "./PatientCard";
 import { Box, Container, Divider } from "@mui/material";
 import { PatientContainer, PatientPage } from "./PatientStyles";
 import PatientSearch from "./PatientSearch";
+import { Loader } from "../../Components";
 const Patients = () => {
     const [patients, setPatients] = useState<PatientRecord[]>([]);
     const [loading, setLoading] = useState(true);
@@ -35,7 +36,7 @@ const Patients = () => {
     useEffect(() => {
         getAllPatients();
     }, []);
-
+    if (loading) return <Loader open={loading} />;
     return (
         <PatientPage>
             <PatientSearch setPatients={setPatients} />

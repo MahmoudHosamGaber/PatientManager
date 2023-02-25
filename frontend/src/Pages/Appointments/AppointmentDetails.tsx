@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Loader } from "../../Components";
 import { useAuth } from "../../Context/AuthContext";
 import { useToast } from "../../Context/ToastContext";
 import { AppointmentRecord } from "../../global";
@@ -37,6 +38,7 @@ const AppointmentDetails = () => {
         if (!id) return;
         getAppointment(id);
     }, [id]);
+    if (loading) return <Loader open={loading} />;
     return <div>AppointmentDetails</div>;
 };
 

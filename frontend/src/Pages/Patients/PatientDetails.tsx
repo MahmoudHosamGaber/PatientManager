@@ -2,6 +2,7 @@ import { Typography, Container, Box } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Loader } from "../../Components";
 import { useAuth } from "../../Context/AuthContext";
 import { useToast } from "../../Context/ToastContext";
 import { AppointmentRecord, PatientRecord } from "../../global";
@@ -12,8 +13,7 @@ const PatientDetails = () => {
     const { id } = useParams();
     const { toast } = useToast();
     const [patient, setPatient] = useState<PatientRecord>();
-    const [appointments, setAppointments] = useState<AppointmentRecord[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [appointments, setAppointments] = useState<AppointmentRecord[]>();
     const authorization = {
         headers: {
             authorization: `Bearer ${user?.token}`,
@@ -54,7 +54,8 @@ const PatientDetails = () => {
         getAppointments(id);
     }, [id]);
 
-    if (!patient) return <div>Loading...</div>;
+    if (!patient || !appointments) return <Loader open={true} />;
+
     const firstName =
         patient?.firstName.charAt(0).toUpperCase() + patient.firstName.slice(1);
     const lastName =

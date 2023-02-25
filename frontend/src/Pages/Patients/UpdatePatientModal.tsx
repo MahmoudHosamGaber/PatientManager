@@ -2,6 +2,7 @@ import { Button, Modal, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
+import { Loader } from "../../Components";
 import { ModalBox } from "../../Components/ModalStyles/ModalStyles";
 import { useAuth } from "../../Context/AuthContext";
 import { useToast } from "../../Context/ToastContext";
@@ -57,6 +58,7 @@ const UpdatePatientModal = ({ patient, setPatients }: Props) => {
             setLoading(false);
         }
     };
+    if (loading) return <Loader open={loading} />;
     return (
         <>
             <Button

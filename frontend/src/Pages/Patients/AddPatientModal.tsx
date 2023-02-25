@@ -6,6 +6,7 @@ import axios, { AxiosError } from "axios";
 import { useToast } from "../../Context/ToastContext";
 import { useAuth } from "../../Context/AuthContext";
 import { PatientRecord } from "../../global";
+import { Loader } from "../../Components";
 type Props = {
     setPatients: Dispatch<SetStateAction<PatientRecord[]>>;
 };
@@ -51,6 +52,7 @@ const AddPatientModal = ({ setPatients }: Props) => {
             setLoading(false);
         }
     };
+    if (loading) return <Loader open={loading} />;
     return (
         <>
             <Button
