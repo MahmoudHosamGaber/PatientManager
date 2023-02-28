@@ -6,13 +6,13 @@ import { Loader } from "../../Components";
 import { ModalBox } from "../../Components/ModalStyles/ModalStyles";
 import { useAuth } from "../../Context/AuthContext";
 import { useToast } from "../../Context/ToastContext";
-import { PatientRecord } from "../../global";
+import { AppointmentRecord } from "../../global";
+
 type Props = {
-    patient: PatientRecord;
-    setPatient?: React.Dispatch<React.SetStateAction<PatientRecord>>;
-    setPatients?: React.Dispatch<React.SetStateAction<PatientRecord[]>>;
+    appointment: AppointmentRecord;
+    setAppointment: React.Dispatch<React.SetStateAction<AppointmentRecord>>;
 };
-const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
+const UpdateAppointmentModal = ({ appointment, setAppointment }: Props) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -30,28 +30,25 @@ const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
                 },
             };
             const formData = new FormData(e.currentTarget);
-            const firstName = formData.get("firstName");
-            const lastName = formData.get("lastName");
-            const phonenumber = formData.get("phonenumber");
-            const respose = await axios.put(
-                `/api/patient/${patient._id}`,
-                { firstName, lastName, phonenumber },
+            const title = formData.get("title");
+            const description = formData.get("description");
+            const date = formData.get("date");
+            const cost = parseInt(formData.get("cost") as string);
+            const paid = parseInt(formData.get("paid") as string);
+            const response = await axios.put(
+                `/api/appointment/${appointment._id}`,
+                {
+                    title,
+                    description,
+                    date,
+                    cost,
+                    paid,
+                },
                 config
             );
-            if (setPatients) {
-                setPatients((prev) =>
-                    prev.map((p) => {
-                        if (p._id === patient._id) {
-                            return respose.data._doc;
-                        }
-                        return p;
-                    })
-                );
-            }
-            if (setPatient) setPatient(respose.data._doc);
-
-            toast.success("Patient Updated Successfully");
+            setAppointment(response.data);
             handleClose();
+            toast.success("Appointment updated successfully");
             setLoading(false);
         } catch (error: AxiosError | any) {
             const message: string =
@@ -63,15 +60,16 @@ const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
         }
     };
     if (loading) return <Loader open={loading} />;
+    const currentDate = new Date(
+        new Date(appointment.date).getTime() -
+            new Date().getTimezoneOffset() * 60000
+    )
+        .toISOString()
+        .slice(0, 16);
     return (
         <>
-            <Button
-                onClick={handleOpen}
-                // size="small"
-                color="warning"
-                variant="contained"
-            >
-                Update
+            <Button onClick={handleOpen} color="warning" variant="contained">
+                Update Appointment
             </Button>
             <Modal
                 open={open}
@@ -91,26 +89,39 @@ const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
                         }}
                     >
                         <TextField
-                            label="First Name"
-                            name="firstName"
-                            value={patient.firstName}
+                            label="Title"
+                            name="title"
+                            defaultValue={appointment.title}
                         />
                         <TextField
-                            label="Last Name"
-                            name="lastName"
-                            value={patient.lastName}
+                            label="Description"
+                            name="description"
+                            defaultValue={appointment.description}
                         />
                         <TextField
-                            label="Phone Number"
-                            name="phonenumber"
-                            value={patient.phonenumber}
+                            label="Date"
+                            name="date"
+                            type="datetime-local"
+                            defaultValue={currentDate}
+                        />
+                        <TextField
+                            label="Cost"
+                            name="cost"
+                            type="number"
+                            defaultValue={appointment.cost}
+                        />
+                        <TextField
+                            label="Paid"
+                            name="paid"
+                            type="number"
+                            defaultValue={appointment.paid}
                         />
                         <Button
                             type="submit"
                             variant="contained"
                             color="warning"
                         >
-                            Update Patient
+                            Update Appointment
                         </Button>
                     </Box>
                 </ModalBox>
@@ -119,4 +130,4 @@ const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
     );
 };
 
-export default UpdatePatientModal;
+export default UpdateAppointmentModal;

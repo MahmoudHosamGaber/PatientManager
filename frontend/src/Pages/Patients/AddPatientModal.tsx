@@ -32,7 +32,6 @@ const AddPatientModal = ({ setPatients }: Props) => {
             const firstName = formData.get("firstName");
             const lastName = formData.get("lastName");
             const phonenumber = formData.get("phonenumber");
-            console.log(phonenumber);
             const respose = await axios.post(
                 "/api/patient",
                 { firstName, lastName, phonenumber },
@@ -47,7 +46,6 @@ const AddPatientModal = ({ setPatients }: Props) => {
                 error?.response?.data?.message ||
                 error.message ||
                 error.toString();
-            console.log(error);
             toast.error(message);
             setLoading(false);
         }

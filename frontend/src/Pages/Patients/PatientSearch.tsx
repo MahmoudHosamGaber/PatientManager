@@ -33,7 +33,6 @@ const PatientSearch = ({ setPatients }: Props) => {
             authorization
         );
         const patients: PatientRecord[] = response.data;
-        console.log(patients);
         setPatients(patients);
     };
     return (

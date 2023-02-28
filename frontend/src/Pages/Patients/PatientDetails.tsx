@@ -135,7 +135,12 @@ const PatientDetails = () => {
             </Box>
             <AppointmentContainer>
                 {appointments.map((appointment) => {
-                    return <AppointmentCard appointment={appointment} />;
+                    return (
+                        <AppointmentCard
+                            appointment={appointment}
+                            key={appointment._id}
+                        />
+                    );
                 })}
             </AppointmentContainer>
         </Container>

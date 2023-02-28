@@ -20,7 +20,7 @@ export type AppointmentRecord = {
     _id: string;
     title: string;
     description: string;
-    date: Date;
+    date: string;
     patient: string;
     cost: number;
     paid: number;

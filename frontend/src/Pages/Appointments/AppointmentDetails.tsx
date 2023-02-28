@@ -1,4 +1,4 @@
-import { Divider, Tooltip, Typography, Zoom } from "@mui/material";
+import { Button, Divider, Tooltip, Typography, Zoom } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import { AppointmentRecord, PatientRecord } from "../../global";
 import PersonIcon from "@mui/icons-material/Person";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { IconBox } from "./AppointmentStyles";
+import UpdateAppointmentModal from "./UpdateAppointmentModal";
 
 const AppointmentDetails = () => {
     const navigate = useNavigate();
@@ -54,6 +55,24 @@ const AppointmentDetails = () => {
             toast.error(message);
         }
     };
+    const markAsPayed = async (id: string) => {
+        try {
+            const res = await axios.put(
+                `/api/appointment/${id}`,
+                { paid: appointment?.cost },
+                authorization
+            );
+            setAppointment(res.data);
+            toast.success("Appointment marked as paid");
+        } catch (error: AxiosError | any) {
+            const message: string =
+                error?.response?.data?.message ||
+                error.message ||
+                error.toString();
+            toast.error(message);
+        }
+    };
+
     useEffect(() => {
         if (!id) return;
         getAppointment(id);
@@ -125,18 +144,32 @@ const AppointmentDetails = () => {
                     {status}
                 </Box>
             </Typography>
-            {status === Status.unpaid && (
-                <Typography variant="h5">
-                    Unpaid Amount: {appointment.cost - appointment.paid}
-                </Typography>
-            )}
-
-            <Divider />
-            <Box>
-                <Typography variant="body1">
-                    {appointment.description}
-                </Typography>
+            <Typography variant="h5">
+                Cost: {appointment.cost}
+                {status === Status.unpaid && ` - Paid: ${appointment.paid}`}
+            </Typography>
+            <Box display={"flex"} gap="1rem">
+                {status === Status.unpaid && (
+                    <Button
+                        variant="contained"
+                        color="success"
+                        onClick={() => markAsPayed(appointment._id)}
+                    >
+                        Mark as Paid
+                    </Button>
+                )}
+                <UpdateAppointmentModal
+                    appointment={appointment}
+                    setAppointment={
+                        setAppointment as unknown as React.Dispatch<
+                            React.SetStateAction<AppointmentRecord>
+                        >
+                    }
+                />
             </Box>
+            <Divider />
+
+            <Typography variant="body1">{appointment.description}</Typography>
         </Container>
     );
 };
