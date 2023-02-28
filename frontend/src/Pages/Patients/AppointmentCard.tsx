@@ -1,4 +1,5 @@
 import { Box, Card, CardActionArea, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { AppointmentRecord } from "../../global";
 import {
     AppointmentActionArea,
@@ -9,6 +10,7 @@ type Props = {
     appointment: AppointmentRecord;
 };
 const AppointmentCard = ({ appointment }: Props) => {
+    const navigate = useNavigate();
     const date = new Date(appointment.date);
     const formattedDate = Intl.DateTimeFormat("en-US", {
         year: "numeric",
@@ -25,7 +27,7 @@ const AppointmentCard = ({ appointment }: Props) => {
         appointment.paid < appointment.cost ? Status.Pending : Status.Completed;
 
     return (
-        <Card>
+        <Card onClick={() => navigate(`/appointments/${appointment._id}`)}>
             <AppointmentActionArea>
                 <Typography fontSize="2rem">{appointment.title}</Typography>
                 <Typography variant="h6">

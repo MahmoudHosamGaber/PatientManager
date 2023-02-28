@@ -29,3 +29,9 @@ export const AppointmentActionArea = styled(CardActionArea)(() => ({
         width: "100%",
     },
 }));
+
+export const IconBox = styled(Box)(() => ({
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
+}));
