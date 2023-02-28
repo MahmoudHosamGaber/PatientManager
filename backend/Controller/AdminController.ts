@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { AdminUser } from "../global";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { AuthinticatedRequest } from "../global";
 import { Record, Static } from "runtypes";
 
 export const registerAdmin = async (req: Request, res: Response) => {
@@ -38,6 +39,29 @@ export const loginAdmin = async (req: Request<Input>, res: Response) => {
         username: admin.username,
         token: generateToken(admin._id),
     });
+};
+
+export const changePassword = async (
+    req: AuthinticatedRequest,
+    res: Response
+) => {
+    const { password, username, newPassword } = req.body;
+    if (!password)
+        return res.status(400).json({ message: "Password is required" });
+    const admin: AdminUser | null = await Admin.findById(req.user?._id);
+    const isAuthorized =
+        admin && (await bcrypt.compare(password, admin.password));
+    if (!isAuthorized) {
+        return res.status(401).json({ message: "Invalid password" });
+    }
+    if (password) {
+        const passwordHash = await bcrypt.hash(newPassword, 10);
+        await Admin.findByIdAndUpdate(req.user?._id, {
+            password: passwordHash,
+        });
+    }
+    if (username) await Admin.findByIdAndUpdate(req.user?._id, { username });
+    res.status(200).json({ message: "Credintials changed successfully" });
 };
 
 const generateToken = (id: string) => {

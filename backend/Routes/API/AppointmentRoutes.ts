@@ -7,10 +7,10 @@ const {
     createAppointment,
     validateCreateAppointmentInput,
     getAllAppointments,
+    getAppointmentById,
     getAppointmentByPatientId,
     getPendingAppointments,
     updateAppointment,
-    deleteAppointment,
 } = AppointmentController;
 
 router.get("/", authinticateAdmin, getAllAppointments);
@@ -22,5 +22,5 @@ router.post(
     validateCreateAppointmentInput,
     createAppointment
 );
+router.get("/:id", authinticateAdmin, getAppointmentById);
 router.put("/:id", authinticateAdmin, updateAppointment);
-router.delete("/:id", authinticateAdmin, deleteAppointment);

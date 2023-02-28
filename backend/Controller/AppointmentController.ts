@@ -82,6 +82,21 @@ const getPendingAppointments = async (
     }
 };
 
+const getAppointmentById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const id = req.params.id;
+        const appointment = await Appointment.findById(id);
+        if (!appointment) return res.status(404).json({ message: "Not found" });
+        res.status(200).json(appointment);
+    } catch (error) {
+        next(error);
+    }
+};
+
 const getAppointmentByPatientId = async (
     req: Request,
     res: Response,
@@ -104,15 +119,8 @@ const updateAppointment = async (
     next: NextFunction
 ) => {
     try {
-        const { title, description, date, cost, paid, password } = req.body;
-        if (!req.user || !password)
-            return res.status(401).json({ message: "Unauthorized" });
-        const passwordMatches = await bcrypt.compare(
-            password,
-            req.user.password
-        );
-        if (!passwordMatches)
-            return res.status(401).json({ message: "Unauthorized" });
+        const { title, description, date, cost, paid } = req.body;
+        if (!req.user) return res.status(401).json({ message: "Unauthorized" });
         const filter = {
             ...(title ? { title } : {}),
             ...(description ? { description } : {}),
@@ -145,15 +153,6 @@ const deleteAppointment = async (
     next: NextFunction
 ) => {
     try {
-        const { password } = req.body;
-        if (!req.user || !password)
-            return res.status(401).json({ message: "Unauthorized" });
-        const passwordMatches = await bcrypt.compare(
-            password,
-            req.user.password
-        );
-        if (!passwordMatches)
-            return res.status(401).json({ message: "Unauthorized" });
         const appointment = await Appointment.findByIdAndDelete(req.params.id);
         if (!appointment) return res.status(404).json({ message: "Not found" });
         else res.status(200).json(appointment);
@@ -167,7 +166,7 @@ export default {
     validateCreateAppointmentInput,
     getAllAppointments,
     getPendingAppointments,
+    getAppointmentById,
     getAppointmentByPatientId,
     updateAppointment,
-    deleteAppointment,
 };

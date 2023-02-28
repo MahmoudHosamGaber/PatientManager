@@ -8,6 +8,7 @@ import Patients from "./Pages/Patients/Patients";
 import Appointments from "./Pages/Appointments/Appointments";
 import PatientDetails from "./Pages/Patients/PatientDetails";
 import AppointmentDetails from "./Pages/Appointments/AppointmentDetails";
+import ChangePassword from "./Pages/ChangePassword/ChangePassword";
 function App() {
     return (
         <>
@@ -34,6 +35,10 @@ function App() {
                             <Route
                                 path="/appointments/:id"
                                 element={<AppointmentDetails />}
+                            />
+                            <Route
+                                path="/change-password"
+                                element={<ChangePassword />}
                             />
                         </Route>
                     </Routes>
