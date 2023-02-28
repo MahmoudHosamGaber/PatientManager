@@ -93,17 +93,17 @@ const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
                         <TextField
                             label="First Name"
                             name="firstName"
-                            value={patient.firstName}
+                            defaultValue={patient.firstName}
                         />
                         <TextField
                             label="Last Name"
                             name="lastName"
-                            value={patient.lastName}
+                            defaultValue={patient.lastName}
                         />
                         <TextField
                             label="Phone Number"
                             name="phonenumber"
-                            value={patient.phonenumber}
+                            defaultValue={patient.phonenumber}
                         />
                         <Button
                             type="submit"
