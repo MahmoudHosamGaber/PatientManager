@@ -7,6 +7,7 @@ import { useToast } from "../../Context/ToastContext";
 import { useAuth } from "../../Context/AuthContext";
 import { AppointmentRecord, PatientRecord } from "../../global";
 import { Loader } from "../../Components";
+import { translate } from "../../Utils/Translate";
 
 type Props = {
     patient: PatientRecord;
@@ -72,7 +73,7 @@ const AddAppointmentModal = ({ patient, setAppointments }: Props) => {
                 variant="contained"
                 color="success"
             >
-                New Appointment
+                {translate("new appointment")}
             </Button>
             <Modal
                 open={open}
@@ -90,23 +91,30 @@ const AddAppointmentModal = ({ patient, setAppointments }: Props) => {
                             gap: "1rem",
                         }}
                     >
-                        <TextField label="Title" name="title" required />
-                        <TextField label="Description" name="description" />
                         <TextField
-                            label="Date"
+                            label={translate("title")}
+                            name="title"
+                            required
+                        />
+                        <TextField
+                            label={translate("description")}
+                            name="description"
+                        />
+                        <TextField
+                            label={translate("date")}
                             name="date"
                             type="datetime-local"
                             defaultValue={currentDate}
                             required
                         />
                         <TextField
-                            label="Cost"
+                            label={translate("cost")}
                             name="cost"
                             type="number"
                             required
                         />
                         <TextField
-                            label="Paid"
+                            label={translate("paid")}
                             name="paid"
                             type="number"
                             required

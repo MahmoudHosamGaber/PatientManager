@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction } from "react";
 import axios from "axios";
 import { PatientRecord } from "../../global";
 import { useAuth } from "../../Context/AuthContext";
+import { translate } from "../../Utils/Translate";
 
 type Props = {
     setPatients: Dispatch<SetStateAction<PatientRecord[]>>;
@@ -46,9 +47,13 @@ const PatientSearch = ({ setPatients }: Props) => {
         >
             <AddPatientModal setPatients={setPatients} />
             <PatientSearchForm onSubmit={onSubmit}>
-                <TextField label="Name" name="name" variant="standard" />
                 <TextField
-                    label="Phone Number"
+                    label={translate("name")}
+                    name="name"
+                    variant="standard"
+                />
+                <TextField
+                    label={translate("phone number")}
                     name="phoneNumber"
                     variant="standard"
                 />
@@ -58,7 +63,7 @@ const PatientSearch = ({ setPatients }: Props) => {
                     color="info"
                     startIcon={<SearchIcon />}
                 >
-                    Search
+                    {translate("search")}
                 </Button>
             </PatientSearchForm>
         </Box>

@@ -11,6 +11,7 @@ import AppointmentCard from "./AppointmentCard";
 import PhoneIcon from "@mui/icons-material/Phone";
 import UpdatePatientModal from "./UpdatePatientModal";
 import AddAppointmentModal from "../Appointments/AddAppointmentModal";
+import { translate } from "../../Utils/Translate";
 
 const PatientDetails = () => {
     const { user } = useAuth();
@@ -119,7 +120,7 @@ const PatientDetails = () => {
                         textAlign="center"
                         sx={{ color: "red" }}
                     >
-                        Total Unpaid: {totalUnpaid} EGP
+                        {translate("total unpaid")}: {totalUnpaid}
                     </Typography>
                 )}
             </Box>

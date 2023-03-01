@@ -7,6 +7,7 @@ import { useToast } from "../../Context/ToastContext";
 import { useAuth } from "../../Context/AuthContext";
 import { PatientRecord } from "../../global";
 import { Loader } from "../../Components";
+import { translate } from "../../Utils/Translate";
 type Props = {
     setPatients: Dispatch<SetStateAction<PatientRecord[]>>;
 };
@@ -59,7 +60,7 @@ const AddPatientModal = ({ setPatients }: Props) => {
                 variant="contained"
                 color="success"
             >
-                New Patient
+                {translate("new patient")}
             </Button>
             <Modal
                 open={open}
@@ -79,13 +80,17 @@ const AddPatientModal = ({ setPatients }: Props) => {
                         onSubmit={onSubmit}
                     >
                         <TextField
-                            label="First Name"
+                            label={translate("first name")}
                             name="firstName"
                             required
                         />
-                        <TextField label="Last Name" name="lastName" required />
                         <TextField
-                            label="Phone Number"
+                            label={translate("last name")}
+                            name="lastName"
+                            required
+                        />
+                        <TextField
+                            label={translate("phone number")}
                             name="phonenumber"
                             required
                         />
@@ -94,7 +99,7 @@ const AddPatientModal = ({ setPatients }: Props) => {
                             variant="contained"
                             color="success"
                         >
-                            Add Patient
+                            {translate("add patient")}
                         </Button>
                     </Box>
                 </ModalBox>

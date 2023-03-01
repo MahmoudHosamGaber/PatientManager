@@ -8,6 +8,7 @@ import { Loader } from "../../Components";
 import AppointmentCard from "./AppointmentCard";
 import { AppointmentRecord, PatientRecord } from "../../global";
 import { AppointmentContainer, AppointmentPage } from "./AppointmentStyles";
+import { translate } from "../../Utils/Translate";
 
 const Appointments = () => {
     const [tab, setTab] = useState("all");
@@ -79,8 +80,8 @@ const Appointments = () => {
     return (
         <AppointmentPage>
             <Tabs value={tab} onChange={(e, v) => setTab(v)}>
-                <Tab label="All Appointments" value="all" />
-                <Tab label="Unpaid Appointments" value="unpaid" />
+                <Tab label={translate("all appointments")} value="all" />
+                <Tab label={translate("unpaid appointments")} value="unpaid" />
             </Tabs>
             <AppointmentContainer>
                 {appointmentList.map((appointment: AppointmentRecord) => (

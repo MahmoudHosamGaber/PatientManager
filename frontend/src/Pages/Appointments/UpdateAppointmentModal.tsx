@@ -7,6 +7,7 @@ import { ModalBox } from "../../Components/ModalStyles/ModalStyles";
 import { useAuth } from "../../Context/AuthContext";
 import { useToast } from "../../Context/ToastContext";
 import { AppointmentRecord } from "../../global";
+import { translate } from "../../Utils/Translate";
 
 type Props = {
     appointment: AppointmentRecord;
@@ -69,7 +70,7 @@ const UpdateAppointmentModal = ({ appointment, setAppointment }: Props) => {
     return (
         <>
             <Button onClick={handleOpen} color="warning" variant="contained">
-                Update Appointment
+                {translate("update appointment")}
             </Button>
             <Modal
                 open={open}
@@ -89,29 +90,29 @@ const UpdateAppointmentModal = ({ appointment, setAppointment }: Props) => {
                         }}
                     >
                         <TextField
-                            label="Title"
+                            label={translate("title")}
                             name="title"
                             defaultValue={appointment.title}
                         />
                         <TextField
-                            label="Description"
+                            label={translate("description")}
                             name="description"
                             defaultValue={appointment.description}
                         />
                         <TextField
-                            label="Date"
+                            label={translate("date")}
                             name="date"
                             type="datetime-local"
                             defaultValue={currentDate}
                         />
                         <TextField
-                            label="Cost"
+                            label={translate("cost")}
                             name="cost"
                             type="number"
                             defaultValue={appointment.cost}
                         />
                         <TextField
-                            label="Paid"
+                            label={translate("paid")}
                             name="paid"
                             type="number"
                             defaultValue={appointment.paid}
@@ -121,7 +122,7 @@ const UpdateAppointmentModal = ({ appointment, setAppointment }: Props) => {
                             variant="contained"
                             color="warning"
                         >
-                            Update Appointment
+                            {translate("update appointment")}
                         </Button>
                     </Box>
                 </ModalBox>

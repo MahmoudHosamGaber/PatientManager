@@ -7,6 +7,7 @@ import { ModalBox } from "../../Components/ModalStyles/ModalStyles";
 import { useAuth } from "../../Context/AuthContext";
 import { useToast } from "../../Context/ToastContext";
 import { PatientRecord } from "../../global";
+import { translate } from "../../Utils/Translate";
 type Props = {
     patient: PatientRecord;
     setPatient?: React.Dispatch<React.SetStateAction<PatientRecord>>;
@@ -71,7 +72,7 @@ const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
                 color="warning"
                 variant="contained"
             >
-                Update
+                {translate("update")}
             </Button>
             <Modal
                 open={open}
@@ -91,17 +92,17 @@ const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
                         }}
                     >
                         <TextField
-                            label="First Name"
+                            label={translate("first name")}
                             name="firstName"
                             defaultValue={patient.firstName}
                         />
                         <TextField
-                            label="Last Name"
+                            label={translate("last name")}
                             name="lastName"
                             defaultValue={patient.lastName}
                         />
                         <TextField
-                            label="Phone Number"
+                            label={translate("phone number")}
                             name="phonenumber"
                             defaultValue={patient.phonenumber}
                         />
@@ -110,7 +111,7 @@ const UpdatePatientModal = ({ patient, setPatients, setPatient }: Props) => {
                             variant="contained"
                             color="warning"
                         >
-                            Update Patient
+                            {translate("update patient")}
                         </Button>
                     </Box>
                 </ModalBox>

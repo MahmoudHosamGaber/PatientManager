@@ -1,6 +1,7 @@
 import { Box, Card, CardActionArea, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { AppointmentRecord } from "../../global";
+import { translate } from "../../Utils/Translate";
 import { AppointmentActionArea } from "./AppointmentStyles";
 
 type Props = {
@@ -15,8 +16,8 @@ const AppointmentCard = ({ appointment }: Props) => {
         day: "2-digit",
     }).format(date);
     enum Status {
-        Pending = "Pending",
-        Completed = "Completed",
+        Pending = translate("unpaid"),
+        Completed = translate("paid"),
     }
     const status =
         appointment.paid < appointment.cost ? Status.Pending : Status.Completed;
@@ -25,7 +26,7 @@ const AppointmentCard = ({ appointment }: Props) => {
             <AppointmentActionArea>
                 <Typography fontSize="2rem">{appointment.title}</Typography>
                 <Typography variant="h6">
-                    Status:{" "}
+                    {translate("status")}:{" "}
                     <span
                         style={{
                             color: status === Status.Pending ? "red" : "green",

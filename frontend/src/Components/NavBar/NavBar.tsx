@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { LocalLibrary } from "@mui/icons-material";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import { useAuth } from "../../Context/AuthContext";
+import { translate } from "../../Utils/Translate";
 const drawerWidth = 240;
 type NavItem = {
     text: string;
@@ -31,10 +32,13 @@ export default function DrawerAppBar() {
 
     const { logout } = useAuth();
     const navItems: NavItem[] = [
-        { text: "Patients", onClick: () => navigate("/patients") },
-        { text: "Appointments", onClick: () => navigate("/appointments") },
-        { text: "Profile", onClick: () => navigate("/profile") },
-        { text: "Logout", onClick: () => logout() },
+        { text: translate("patients"), onClick: () => navigate("/patients") },
+        {
+            text: translate("appointments"),
+            onClick: () => navigate("/appointments"),
+        },
+        { text: translate("profile"), onClick: () => navigate("/profile") },
+        { text: translate("logout"), onClick: () => logout() },
     ];
 
     const drawer = (
